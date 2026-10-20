@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { safeUrl } from './url';
+import { safeUrl, youtubeId } from './url';
 
 describe('safeUrl', () => {
   it('aceita https e http', () => {
@@ -22,6 +22,12 @@ describe('safeUrl', () => {
     expect(safeUrl('/images/../index.html')).toBeUndefined();
     expect(safeUrl('//evil.com/images/x.png')).toBeUndefined();
     expect(safeUrl('/admin')).toBeUndefined();
+  });
+  it('reconhece links do YouTube', () => {
+    expect(youtubeId('https://www.youtube.com/watch?v=LgUFjTNg_UU')).toBe('LgUFjTNg_UU');
+    expect(youtubeId('https://youtu.be/LgUFjTNg_UU')).toBe('LgUFjTNg_UU');
+    expect(youtubeId('https://www.youtube.com/shorts/abc123DEF')).toBe('abc123DEF');
+    expect(youtubeId('https://vimeo.com/123')).toBeNull();
   });
   it('httpsOnly recusa http', () => {
     expect(safeUrl('http://exemplo.com', { httpsOnly: true })).toBeUndefined();

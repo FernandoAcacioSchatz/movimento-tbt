@@ -37,8 +37,7 @@ test.describe('site público', () => {
     await expect(page.getByRole('link', { name: /Clipagens/ })).toHaveCount(0);
 
     await page.getByRole('link', { name: /Postagens/ }).click();
-    const titles = await page.locator('.tl-card__title').allTextContents();
-    expect(titles).toEqual(['Sujos', 'A Caixa']);
+    await expect(page.locator('.tl-card__title')).toHaveText(['Sujos', 'A Caixa']);
 
     await page.getByRole('link', { name: /Sujos/ }).click();
     await expect(page.getByRole('heading', { level: 1, name: 'Sujos' })).toBeVisible();
@@ -146,9 +145,46 @@ test.describe('área administrativa', () => {
     await page.getByRole('button', { name: 'Entrar' }).click();
     await expect(page.getByText('Informe o e-mail.')).toBeVisible();
     await page.getByLabel('E-mail', { exact: true }).fill('alguem@exemplo.com');
-    await page.getByLabel('Senha').fill('senhaerrada');
+    await page.getByLabel('Senha', { exact: true }).fill('senhaerrada');
     await page.getByRole('button', { name: 'Entrar' }).click();
     await expect(page.getByText('E-mail ou senha incorretos.')).toBeVisible();
+  });
+
+  test('olhinho mostra e oculta a senha', async ({ page }) => {
+    await mockSupabase(page);
+    await page.goto('/login');
+    const senha = page.getByLabel('Senha', { exact: true });
+    await senha.fill('MinhaSenha123');
+    await expect(senha).toHaveAttribute('type', 'password');
+    await page.getByRole('button', { name: 'Mostrar senha' }).click();
+    await expect(senha).toHaveAttribute('type', 'text');
+    await page.getByRole('button', { name: 'Ocultar senha' }).click();
+    await expect(senha).toHaveAttribute('type', 'password');
+  });
+
+  test('recuperar senha: resposta genérica, link certo e espera entre pedidos', async ({ page }) => {
+    await mockSupabase(page);
+    let redirect = '';
+    await page.route('https://btzeamyzvltiuslquwhm.supabase.co/auth/v1/recover**', (r) => {
+      redirect = new URL(r.request().url()).searchParams.get('redirect_to') ?? '';
+      return r.fulfill({ status: 200, contentType: 'application/json', body: '{}' });
+    });
+    await page.goto('/login');
+    await page.getByRole('link', { name: 'Esqueci minha senha' }).click();
+    await page.getByLabel('E-mail').fill('qualquer@exemplo.com');
+    await page.getByRole('button', { name: 'Enviar link' }).click();
+    await expect(page.getByText(/Se esse e-mail estiver cadastrado/)).toBeVisible();
+    expect(redirect).toMatch(/\/redefinir-senha$/);
+    await expect(page.getByRole('button', { name: /Aguarde \d+s/ })).toBeDisabled();
+  });
+
+  test('redefinir senha: link expirado ou aberto sem o e-mail', async ({ page }) => {
+    await mockSupabase(page);
+    await page.goto('/redefinir-senha#error=access_denied&error_code=otp_expired&error_description=Email+link+is+invalid+or+has+expired');
+    await expect(page.getByText('Este link expirou. Peça um novo link de recuperação.')).toBeVisible();
+    expect(page.url()).not.toContain('error');
+    await page.goto('/redefinir-senha');
+    await expect(page.getByText('Abra esta página pelo link enviado ao seu e-mail.')).toBeVisible();
   });
 
   test('/login e /admin pedem aos buscadores para não indexar', async ({ page }) => {

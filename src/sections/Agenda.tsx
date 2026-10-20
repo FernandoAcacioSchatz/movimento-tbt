@@ -6,6 +6,8 @@ import { EditButton } from '../components/ui/EditButton';
 import { CarouselControls } from '../components/ui/CarouselControls';
 import { dateParts, sortShows, todayISO, accentColor } from '../utils/format';
 import { safeUrl } from '../utils/url';
+import { Link } from 'react-router-dom';
+import { SafeLink } from '../components/ui/SafeLink';
 
 export function Agenda() {
   const { content } = useContent();
@@ -26,7 +28,27 @@ export function Agenda() {
         <p className="lead" style={{ maxWidth: '38.75rem', marginBottom: 'var(--space-7)' }}>{t('agendaText')}</p>
 
         {shows.length === 0 ? (
-          <p className="empty">Em breve, novos espetáculos por aqui.</p>
+          <div className="agenda-empty">
+            <span className="agenda-empty__light agenda-empty__light--yellow" aria-hidden="true" />
+            <span className="agenda-empty__light agenda-empty__light--teal" aria-hidden="true" />
+            <span className="agenda-empty__light agenda-empty__light--pink" aria-hidden="true" />
+            <div className="agenda-empty__art" aria-hidden="true">
+              <img src="/images/mascaras.webp" alt="" width={640} height={605} loading="lazy" />
+            </div>
+            <div className="agenda-empty__body">
+              <span className="agenda-empty__kicker">Próxima temporada</span>
+              <h3 className="agenda-empty__title">{t('agendaVazioTitulo') || 'A cortina já vai abrir'}</h3>
+              <p className="agenda-empty__text">
+                {t('agendaVazioTexto') || 'Estamos preparando os próximos espetáculos. Enquanto isso, reviva os espetáculos, as filipetas e as histórias que já passaram pelo palco do movimento.'}
+              </p>
+              <div className="agenda-empty__actions">
+                <Link className="btn btn--lg btn--yellow" to="/historia">Reviver a História →</Link>
+                {safeUrl(t('socInstagram')) && (
+                  <SafeLink href={t('socInstagram')} className="btn btn--lg agenda-empty__ghost">Acompanhar no Instagram ↗</SafeLink>
+                )}
+              </div>
+            </div>
+          </div>
         ) : (
           <div style={{ position: 'relative' }} role="region" aria-roledescription="carrossel" aria-label="Espetáculos em cartaz" {...hoverHandlers}>
             <div ref={setTrack} className="slides noscroll" onScroll={onScroll} aria-live={paused ? 'polite' : 'off'}>

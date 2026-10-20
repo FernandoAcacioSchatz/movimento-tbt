@@ -14,7 +14,6 @@ function rowLabel(def: ResourceDef, r: Row): { title: string; sub: string; chip:
   const s = (k: string) => (typeof r[k] === 'string' ? (r[k] as string) : '');
   switch (def.table) {
     case 'shows': return { title: s('title'), sub: [s('group_name'), s('place')].filter(Boolean).join(' · '), chip: !r.published ? 'Oculto' : s('date') >= todayISO() ? 'Em breve' : 'Realizado' };
-    case 'posts': return { title: s('title'), sub: s('excerpt'), chip: !r.published ? 'Oculto' : s('category') };
     case 'members': return { title: s('name'), sub: s('role'), chip: '' };
     case 'videos': return { title: s('title'), sub: s('who'), chip: '' };
     case 'podcasts': return { title: s('title'), sub: s('href'), chip: s('n') };

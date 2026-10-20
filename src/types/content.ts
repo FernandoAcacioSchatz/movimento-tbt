@@ -13,18 +13,6 @@ export interface Show {
   published: boolean;
 }
 
-export type PostCategory = 'Notícia' | 'História';
-
-export interface Post {
-  id: string;
-  title: string;
-  category: PostCategory;
-  date: string;
-  image_url: string | null;
-  excerpt: string | null;
-  published: boolean;
-}
-
 export interface Member {
   id: string;
   position: number;
@@ -42,6 +30,8 @@ export interface Video {
   title: string;
   who: string | null;
   href: string;
+  /** Capa do vídeo; sem capa, o site usa a imagem do próprio YouTube. */
+  cover_url: string | null;
 }
 
 export interface Podcast {
@@ -79,14 +69,13 @@ export interface AdminUser {
 export interface SiteContent {
   texts: SiteTexts;
   shows: Show[];
-  posts: Post[];
   members: Member[];
   videos: Video[];
   podcasts: Podcast[];
   photos: Photo[];
 }
 
-export type ResourceTable = 'shows' | 'posts' | 'members' | 'videos' | 'podcasts' | 'photos';
+export type ResourceTable = 'shows' | 'members' | 'videos' | 'podcasts' | 'photos';
 
 export const CONTACT_SUBJECTS = [
   'Quero entrar em contato',
@@ -147,4 +136,6 @@ export interface HistoryYear {
   postagens: number;
   filipetas: number;
   clipagens: number;
+  /** Capa do ano: foto da 1ª postagem (ou 1ª filipeta/clipagem). */
+  cover_url: string | null;
 }

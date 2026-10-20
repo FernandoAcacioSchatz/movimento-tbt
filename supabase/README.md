@@ -35,3 +35,30 @@ Authentication → Sign In / Providers → desligue **Allow new users to sign up
 Authentication → Passwords → mínimo 12, exigir maiúsculas/minúsculas/números, ative **Leaked password protection** (plano Pro) .
 Authentication → Rate Limits → mantenha os padrões ou reduza.
 Edge Functions → `admin-users` → Secrets: `ALLOWED_ORIGINS` = `https://movimentotbt.art,https://www.movimentotbt.art` (+ domínio provisório de teste, se houver).
+
+## Recuperação de senha (e-mail personalizado)
+O site tem "Esqueci minha senha" em `/login` → `/recuperar-senha`, e o link do e-mail abre `/redefinir-senha`.
+Camadas de segurança: resposta igual exista ou não o e-mail; espera de 60 s entre pedidos (mais o limite do próprio Supabase);
+link de uso único que expira; senha forte (mín. 12, maiúsculas, minúsculas e números); após a troca, **todas as sessões são encerradas**;
+o código do link é apagado da barra de endereço; páginas com `noindex` e bloqueadas no `robots.txt`.
+
+Ajustes no painel (uma vez só):
+
+1. **Endereços permitidos** — Authentication → URL Configuration
+   - Site URL: `https://movimentotbt.art`
+   - Redirect URLs: `http://localhost:5173/redefinir-senha`, `https://movimentotbt.art/redefinir-senha`
+     (e o endereço provisório da Vercel, quando existir, ex.: `https://SEU-PROJETO.vercel.app/redefinir-senha`).
+   Sem isso o link do e-mail leva para o endereço errado.
+2. **Remetente próprio via Brevo** — na Brevo: *SMTP & API → SMTP → Gerar nova chave SMTP* (copie a chave; ela só aparece uma vez).
+   No Supabase: Authentication → Emails → **SMTP Settings** → *Enable custom SMTP*:
+   - Sender email: `fernandoacacioschatz@gmail.com` (remetente já verificado na Brevo; troque por `contato@movimentotbt.art` depois de autenticar o domínio na Brevo)
+   - Sender name: `Movimento TBT`
+   - Host: `smtp-relay.brevo.com` · Port: `587`
+   - Username: o login SMTP mostrado na Brevo (ex.: `…@smtp-brevo.com`)
+   - Password: a chave SMTP gerada (nunca coloque essa chave no código nem no `.env`).
+3. **Modelo do e-mail** — Authentication → Emails → Templates → **Reset Password**:
+   - Subject: `Redefinir sua senha — Movimento TBT`
+   - Body: cole o conteúdo de [`templates/recuperar-senha.html`](templates/recuperar-senha.html).
+   O logo do e-mail vem de `https://movimentotbt.art/images/email/logo-tbt.png`, então só aparece depois do deploy e da troca do DNS.
+4. **Senhas** — Authentication → Providers → Email: *Minimum password length* = 12 e *Password requirements* = letras maiúsculas, minúsculas e números.
+5. Confirme também *Allow new users to sign up* **desligado** (só administradores criam contas, pelo site).

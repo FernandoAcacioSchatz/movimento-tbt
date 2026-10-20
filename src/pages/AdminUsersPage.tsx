@@ -6,6 +6,7 @@ import { adminUserSchema, type AdminUserValues } from '../schemas/authSchemas';
 import { createAdmin, listAdmins, removeAdmin } from '../services/adminUsersService';
 import { useAuth } from '../hooks/useAuth';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { PasswordInput } from '../components/ui/PasswordInput';
 import type { AdminUser } from '../types/content';
 
 export function AdminUsersPage() {
@@ -56,7 +57,7 @@ export function AdminUsersPage() {
           </div>
           <div className="field">
             <label htmlFor="a-pass">Senha inicial</label>
-            <input id="a-pass" className="input" type="password" autoComplete="new-password" aria-invalid={!!errors.password} {...register('password')} />
+            <PasswordInput id="a-pass" autoComplete="new-password" aria-invalid={!!errors.password} {...register('password')} />
             <span className="field__hint">Mínimo de 12 caracteres, com maiúsculas, minúsculas e números.</span>
             {errors.password && <span className="field__error" role="alert">{errors.password.message}</span>}
           </div>

@@ -1,12 +1,11 @@
 import { supabase } from './supabaseClient';
 import { friendlyError, ServiceError } from './errors';
 import type {
-  Member, Photo, Podcast, Post, ResourceTable, Show, SiteContent, SiteTexts, Video,
+  Member, Photo, Podcast, ResourceTable, Show, SiteContent, SiteTexts, Video,
 } from '../types/content';
 
 const ORDER: Record<ResourceTable, { column: string; ascending: boolean }> = {
   shows: { column: 'date', ascending: true },
-  posts: { column: 'date', ascending: false },
   members: { column: 'position', ascending: true },
   videos: { column: 'position', ascending: true },
   podcasts: { column: 'position', ascending: true },
@@ -22,10 +21,9 @@ async function selectAll<T>(table: ResourceTable): Promise<T[]> {
 
 /** Carrega todo o conteúdo público do site. */
 export async function fetchSiteContent(): Promise<SiteContent> {
-  const [textRows, shows, posts, members, videos, podcasts, photos] = await Promise.all([
+  const [textRows, shows, members, videos, podcasts, photos] = await Promise.all([
     supabase.from('site_content').select('key,value'),
     selectAll<Show>('shows'),
-    selectAll<Post>('posts'),
     selectAll<Member>('members'),
     selectAll<Video>('videos'),
     selectAll<Podcast>('podcasts'),
@@ -34,7 +32,7 @@ export async function fetchSiteContent(): Promise<SiteContent> {
   if (textRows.error) throw friendlyError(textRows.error, 'Não foi possível carregar os textos.');
   const texts: SiteTexts = {};
   for (const row of textRows.data ?? []) texts[row.key as string] = row.value as string;
-  return { texts, shows, posts, members, videos, podcasts, photos };
+  return { texts, shows, members, videos, podcasts, photos };
 }
 
 // ---------- Área administrativa (as regras de segurança do banco exigem login de admin) ----------

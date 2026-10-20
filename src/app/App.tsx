@@ -10,6 +10,9 @@ import { NoIndex } from './NoIndex';
 const LoginPage = lazy(() => import('../pages/LoginPage').then((m) => ({ default: m.LoginPage })));
 const AdminMessagesPage = lazy(() => import('../pages/AdminMessagesPage').then((m) => ({ default: m.AdminMessagesPage })));
 const AdminUsersPage = lazy(() => import('../pages/AdminUsersPage').then((m) => ({ default: m.AdminUsersPage })));
+const passwords = () => import('../pages/PasswordPages');
+const RecoverPasswordPage = lazy(() => passwords().then((m) => ({ default: m.RecoverPasswordPage })));
+const ResetPasswordPage = lazy(() => passwords().then((m) => ({ default: m.ResetPasswordPage })));
 const AdminHistoryPage = lazy(() => import('../pages/AdminHistoryPage').then((m) => ({ default: m.AdminHistoryPage })));
 // História: carrega só quando alguém abre /historia.
 const history = () => import('../pages/HistoryPages');
@@ -35,6 +38,8 @@ export function App() {
       <Route path="/historia/:ano/filipetas" element={<HistoryFlyersPage />} />
       <Route path="/historia/:ano/clipagens" element={<HistoryClippingsPage />} />
       <Route path="/login" element={<><NoIndex /><LoginPage /></>} />
+      <Route path="/recuperar-senha" element={<><NoIndex /><RecoverPasswordPage /></>} />
+      <Route path="/redefinir-senha" element={<><NoIndex /><ResetPasswordPage /></>} />
       <Route element={<RequireAdmin />}>
         <Route path="/admin" element={<><NoIndex /><AdminHome /></>} />
         <Route path="/admin/mensagens" element={<><NoIndex /><AdminMessagesPage /></>} />

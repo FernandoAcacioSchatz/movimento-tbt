@@ -3,7 +3,7 @@ import { useTexts } from '../hooks/useTexts';
 import { EditButton } from '../components/ui/EditButton';
 import { SafeLink } from '../components/ui/SafeLink';
 import { accentColor } from '../utils/format';
-import { safeUrl } from '../utils/url';
+import { safeUrl, youtubeId } from '../utils/url';
 
 export function Media() {
   const { content } = useContent();
@@ -26,6 +26,11 @@ export function Media() {
               {videos.map((v, i) => (
                 <SafeLink key={v.id} href={v.href} className="video-card" aria-label={`Assistir: ${v.title}`}>
                   <div className="video-card__cover" style={{ background: accentColor(i) }}>
+                    {(() => {
+                      const yt = youtubeId(v.href);
+                      const cover = safeUrl(v.cover_url) ?? (yt ? `https://i.ytimg.com/vi/${yt}/hqdefault.jpg` : undefined);
+                      return cover ? <img className="video-card__img" src={cover} alt="" loading="lazy" /> : null;
+                    })()}
                     <div className="video-card__play">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="#fbf8f1" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
                     </div>

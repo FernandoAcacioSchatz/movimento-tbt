@@ -9,7 +9,7 @@ const show = (id: string, title: string, date: string, published = true): Show =
 const content: SiteContent = {
   texts: { agendaKicker: 'Agenda', agendaTitle: 'Em cartaz', agendaText: 'texto' },
   shows: [show('1', 'Primeira', '2099-01-01'), show('2', 'Segunda', '2099-02-01'), show('3', 'Oculta', '2099-03-01', false)],
-  posts: [], members: [], videos: [], podcasts: [], photos: [],
+  members: [], videos: [], podcasts: [], photos: [],
 };
 
 beforeEach(() => {

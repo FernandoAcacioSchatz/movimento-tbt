@@ -1,5 +1,6 @@
 import { useTexts } from '../hooks/useTexts';
 import { EditButton } from '../components/ui/EditButton';
+import { onSectionLinkClick } from '../utils/scroll';
 
 export function Hero() {
   const t = useTexts();
@@ -16,17 +17,22 @@ export function Hero() {
           </h1>
           <p className="hero__lead">{t('heroText')}</p>
           <div className="hero__actions">
-            <a className="btn btn--lg btn--yellow" href="#agenda">{t('heroBtn1')}</a>
-            <a className="btn btn--lg btn--outline" href="#historia">{t('heroBtn2')}</a>
+            <a className="btn btn--lg btn--yellow" href="#agenda" onClick={(e) => onSectionLinkClick(e, 'agenda')}>{t('heroBtn1')}</a>
+            <a className="btn btn--lg btn--outline" href="#historia" onClick={(e) => onSectionLinkClick(e, 'historia')}>{t('heroBtn2')}</a>
           </div>
         </div>
         <div className="hero__art">
           <div className="hero__card-wrap">
             <div className="hero__card">
-              <picture>
-                <source srcSet="/images/logo-temporada-2025-480.webp 480w, /images/logo-temporada-2025-800.webp 800w" sizes="(max-width: 640px) 80vw, 400px" type="image/webp" />
-                <img src="/images/logo-temporada-2025-800.webp" alt="Logo Temporada 2025 — Temporada Blumenauense de Teatro" width={800} height={1000} fetchPriority="high" />
-              </picture>
+              <img
+                src="/images/logo-tbt-completo-960.webp"
+                srcSet="/images/logo-tbt-completo-480.webp 480w, /images/logo-tbt-completo-960.webp 960w"
+                sizes="(max-width: 640px) 80vw, 420px"
+                alt="Logo da Temporada Blumenauense de Teatro"
+                width={960}
+                height={386}
+                fetchPriority="high"
+              />
             </div>
             <div className="hero__bubble">
               <strong>{t('bubbleNum')}</strong>

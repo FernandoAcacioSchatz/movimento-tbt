@@ -38,6 +38,10 @@ export function TextFieldsEditor({ fields, onMessage }: { fields: TextField[]; o
   return (
     <form className="ed-card" onSubmit={(e) => void save(e)} aria-label="Textos da seção">
       <div className="ed-card__title">Textos</div>
+      <p className="ed-hint">
+        Dica: escreva <code>{'{integrantes}'}</code> para mostrar a quantidade de integrantes cadastrados,
+        {' '}<code>{'{anos}'}</code> para os anos desde 2005 e <code>{'{ano}'}</code> para o ano atual. Eles se atualizam sozinhos.
+      </p>
       {fields.map((f) => (
         <div className="field" key={f.key}>
           <label htmlFor={`tx-${f.key}`}>{f.label}</label>

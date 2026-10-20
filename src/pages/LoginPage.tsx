@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loginSchema, type LoginValues } from '../schemas/authSchemas';
 import { useAuth } from '../hooks/useAuth';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { PasswordInput } from '../components/ui/PasswordInput';
 
 const MAX_ATTEMPTS = 5;
 const LOCK_SECONDS = 60;
@@ -13,6 +14,7 @@ export function LoginPage() {
   useDocumentTitle('Entrar — Movimento TBT');
   const { signIn, isAdmin, session, loading } = useAuth();
   const navigate = useNavigate();
+  const passwordChanged = (useLocation().state as { passwordChanged?: boolean } | null)?.passwordChanged === true;
   const [failures, setFailures] = useState(0);
   const [lockedUntil, setLockedUntil] = useState(0);
   const [now, setNow] = useState(() => Date.now());
@@ -57,15 +59,19 @@ export function LoginPage() {
           </div>
           <div className="field">
             <label htmlFor="l-pass">Senha</label>
-            <input id="l-pass" className="input" type="password" autoComplete="current-password" aria-invalid={!!errors.password} {...register('password')} />
+            <PasswordInput id="l-pass" autoComplete="current-password" aria-invalid={!!errors.password} {...register('password')} />
             {errors.password && <span className="field__error" role="alert">{errors.password.message}</span>}
           </div>
+          {passwordChanged && <p className="ed-toast" role="status">Senha alterada. Entre com a sua nova senha.</p>}
           {locked && <div className="form__error" role="alert">Muitas tentativas. Aguarde {remaining}s para tentar de novo.</div>}
           {!locked && error && <div className="form__error" role="alert">{error}</div>}
           {loggedNotAdmin && <div className="form__error" role="alert">Esta conta não tem permissão de administrador.</div>}
           <button type="submit" className="btn btn--magenta btn--lg" disabled={isSubmitting || locked}>{isSubmitting ? 'Entrando…' : 'Entrar'}</button>
         </form>
-        <p style={{ marginTop: 'var(--space-5)' }}><Link to="/">← Voltar ao site</Link></p>
+        <p className="login__links">
+          <Link to="/recuperar-senha">Esqueci minha senha</Link>
+          <Link to="/">← Voltar ao site</Link>
+        </p>
       </div>
     </main>
   );

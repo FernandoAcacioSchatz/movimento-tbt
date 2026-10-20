@@ -43,6 +43,14 @@
 .sr-only:focus-visible + * { outline: var(--focus-ring); }
 
 .login { max-width: 28rem; margin: 0 auto; }
+.login__links { margin-top: var(--space-5); display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); }
+.login__links a { text-decoration: underline; min-height: var(--tap-target); display: inline-flex; align-items: center; }
+/* Campo de senha com o "olhinho" */
+.password { position: relative; }
+.password__input { padding-right: 3.25rem; }
+.password__toggle { position: absolute; top: 0; right: 0; height: 100%; min-width: var(--tap-target); display: inline-flex; align-items: center; justify-content: center; border: 0; background: transparent; color: var(--color-ink-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.password__toggle:hover { color: var(--color-magenta); }
+.password__toggle[aria-pressed='true'] { color: var(--color-magenta); }
 .login .form { box-shadow: var(--shadow-yellow); }
 .table-wrap { overflow-x: auto; }
 .table { width: 100%; min-width: 30rem; border-collapse: collapse; }

@@ -48,3 +48,12 @@ describe('resource schemas', () => {
     expect(memberSchema.safeParse({ name: ' ', role: '', bio: '', photo_url: '', link_url: '', link_label: '' }).success).toBe(false);
   });
 });
+
+describe('recuperação de senha', () => {
+  it('nova senha precisa ser forte e repetida igual', async () => {
+    const { newPasswordSchema } = await import('./authSchemas');
+    expect(newPasswordSchema.safeParse({ password: 'SenhaForte12345', confirm: 'SenhaForte12345' }).success).toBe(true);
+    expect(newPasswordSchema.safeParse({ password: 'SenhaForte12345', confirm: 'SenhaForte1234' }).success).toBe(false);
+    expect(newPasswordSchema.safeParse({ password: 'fraca', confirm: 'fraca' }).success).toBe(false);
+  });
+});

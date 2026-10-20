@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { HistoryLayout, LoadingOrError } from '../components/history/HistoryLayout';
 import { Gallery } from '../components/history/Gallery';
+import { YearCard } from '../components/history/YearCard';
 import { KIND_LABEL, paragraphs, parseYear, thumbUrl } from '../components/history/historyUtils';
 import { useLoad } from '../hooks/useLoad';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
@@ -34,18 +35,7 @@ export function HistoryIndexPage() {
         <LoadingOrError loading={years.loading} error={years.error} />
         {years.data?.length === 0 && <p className="empty">Em breve.</p>}
         <ul className="years-grid">
-          {years.data?.map((y, i) => (
-            <li key={y.year}>
-              <Link to={`/historia/${y.year}`} className="year-card" style={{ background: accentColor(i) }}>
-                <span className="year-card__year">{y.year}</span>
-                <span className="year-card__counts">
-                  {[y.postagens && `${y.postagens} ${y.postagens === 1 ? 'postagem' : 'postagens'}`,
-                    y.filipetas && `${y.filipetas} ${y.filipetas === 1 ? 'filipeta' : 'filipetas'}`,
-                    y.clipagens && `${y.clipagens} ${y.clipagens === 1 ? 'clipagem' : 'clipagens'}`].filter(Boolean).join(' · ')}
-                </span>
-              </Link>
-            </li>
-          ))}
+          {years.data?.map((y, i) => <li key={y.year}><YearCard year={y} color={accentColor(i)} /></li>)}
         </ul>
       </section>
     </HistoryLayout>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { LOGO_TEXT } from '../../assets/brand';
+import { onSectionLinkClick } from '../../utils/scroll';
 
 const MENU = [
   ['Início', 'inicio'], ['Sobre', 'sobre'], ['Agenda', 'agenda'], ['História', 'historia'],
@@ -26,12 +27,12 @@ export function Header({ base = '' }: { base?: string }) {
         <nav id="menu-principal" className="nav" aria-label="Principal" data-open={open}>
           {MENU.map(([label, id]) => (
             onHome
-              ? <a key={id} href={to(id)} onClick={() => setOpen(false)}>{label}</a>
+              ? <a key={id} href={to(id)} onClick={(e) => { setOpen(false); onSectionLinkClick(e, id); }}>{label}</a>
               : <Link key={id} to={to(id)} onClick={() => setOpen(false)}>{label}</Link>
           ))}
         </nav>
         {onHome
-          ? <a className="btn btn--magenta header__cta" href={to('agenda')}>Ver agenda →</a>
+          ? <a className="btn btn--magenta header__cta" href={to('agenda')} onClick={(e) => onSectionLinkClick(e, 'agenda')}>Ver agenda →</a>
           : <Link className="btn btn--magenta header__cta" to={to('agenda')}>Ver agenda →</Link>}
       </div>
     </header>

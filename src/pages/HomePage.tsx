@@ -13,6 +13,7 @@ import { Contact } from '../sections/Contact';
 import { EditModeProvider, type SectionKey } from '../hooks/useEditMode';
 import { useContent } from '../hooks/useContent';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { scrollToSection } from '../utils/scroll';
 
 // Código do painel de edição só é baixado em /admin.
 const AdminBar = lazy(() => import('../admin/AdminBar').then((m) => ({ default: m.AdminBar })));
@@ -29,7 +30,7 @@ export function HomePage({ admin = false }: { admin?: boolean }) {
   useDocumentTitle(admin ? 'Modo edição — Movimento TBT' : 'Movimento TBT — Temporada Blumenauense de Teatro');
 
   useEffect(() => {
-    if (!loading && hash) document.getElementById(hash.slice(1))?.scrollIntoView();
+    if (!loading && hash) scrollToSection(hash.slice(1));
   }, [loading, hash]);
 
   return (

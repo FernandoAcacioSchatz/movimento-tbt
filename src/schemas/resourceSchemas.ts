@@ -20,15 +20,6 @@ export const showSchema = z.object({
   published: z.boolean(),
 });
 
-export const postSchema = z.object({
-  title: requiredText(200, 'Título'),
-  category: z.enum(['Notícia', 'História'], { error: 'Escolha a categoria.' }),
-  date: isoDate,
-  image_url: optionalImage,
-  excerpt: optionalText(3000),
-  published: z.boolean(),
-});
-
 export const memberSchema = z.object({
   name: requiredText(150, 'Nome'),
   role: optionalText(150),
@@ -42,6 +33,7 @@ export const videoSchema = z.object({
   title: requiredText(200, 'Título'),
   who: optionalText(200),
   href: requiredUrl,
+  cover_url: optionalImage.optional(),
 });
 
 export const podcastSchema = z.object({

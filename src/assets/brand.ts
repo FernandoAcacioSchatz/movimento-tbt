@@ -2,6 +2,6 @@
 export const LOGO_TEXT = {
   src: '/images/logo-tbt-84.webp',
   srcSet: '/images/logo-tbt-84.webp 2x, /images/logo-tbt-126.webp 3x',
-  width: 79,
+  width: 90,
   height: 42,
 };

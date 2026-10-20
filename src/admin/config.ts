@@ -2,7 +2,7 @@ import type { ZodType } from 'zod';
 import type { SectionKey } from '../hooks/useEditMode';
 import type { ResourceTable } from '../types/content';
 import { showDateProblem } from '../utils/dates';
-import { memberSchema, photoSchema, podcastSchema, postSchema, showSchema, videoSchema } from '../schemas/resourceSchemas';
+import { memberSchema, photoSchema, podcastSchema, showSchema, videoSchema } from '../schemas/resourceSchemas';
 
 export interface TextField { key: string; label: string; kind: 'i' | 'a' | 'A' }
 
@@ -54,19 +54,6 @@ export const RESOURCES: Record<ResourceTable, ResourceDef> = {
       { name: 'published', label: 'Publicado no site', kind: 'checkbox' },
     ],
   },
-  posts: {
-    table: 'posts', label: 'Notícias', newLabel: '+ Nova notícia', ordered: false,
-    hint: 'A notícia mais recente ganha destaque grande. Para espetáculos, filipetas e clipagens antigos, use o editor da História.',
-    schema: postSchema,
-    defaults: { title: '', category: 'Notícia', date: '', image_url: '', excerpt: '', published: true },
-    fields: [
-      { name: 'title', label: 'Título', kind: 'text', autoFocus: true },
-      { name: 'date', label: 'Data', kind: 'date' },
-      { name: 'image_url', label: 'Imagem', kind: 'image' },
-      { name: 'excerpt', label: 'Texto', kind: 'textarea' },
-      { name: 'published', label: 'Publicado no site', kind: 'checkbox' },
-    ],
-  },
   members: {
     table: 'members', label: 'Integrantes', newLabel: '+ Novo integrante', ordered: true,
     hint: 'Use ↑ ↓ para mudar a ordem no carrossel.',
@@ -83,13 +70,14 @@ export const RESOURCES: Record<ResourceTable, ResourceDef> = {
   },
   videos: {
     table: 'videos', label: 'Vídeos', newLabel: '+ Novo vídeo', ordered: true,
-    hint: 'Cole o endereço do vídeo (YouTube etc.). Use ↑ ↓ para ordenar.',
+    hint: 'Cole o endereço do vídeo (YouTube etc.). A capa é opcional: sem ela, o site usa a imagem do próprio YouTube. Use ↑ ↓ para ordenar.',
     schema: videoSchema,
-    defaults: { title: '', who: '', href: '' },
+    defaults: { title: '', who: '', href: '', cover_url: '' },
     fields: [
       { name: 'title', label: 'Título', kind: 'text', autoFocus: true },
       { name: 'who', label: 'Quem apresenta', kind: 'text' },
       { name: 'href', label: 'Endereço do vídeo', kind: 'url', help: 'Comece com https://' },
+      { name: 'cover_url', label: 'Capa (opcional)', kind: 'image' },
     ],
   },
   podcasts: {
@@ -153,11 +141,13 @@ export const SECTIONS: Record<SectionKey, SectionDef> = {
       { key: 'agendaKicker', label: 'Frase pequena', kind: 'i' },
       { key: 'agendaTitle', label: 'Título', kind: 'i' },
       { key: 'agendaText', label: 'Texto de apoio', kind: 'a' },
+      { key: 'agendaVazioTitulo', label: 'Sem espetáculos em cartaz — título', kind: 'i' },
+      { key: 'agendaVazioTexto', label: 'Sem espetáculos em cartaz — texto', kind: 'a' },
     ],
   },
   historia: {
-    title: 'Notícias e História',
-    resources: ['posts'],
+    title: 'História',
+    resources: [],
     texts: [
       { key: 'historiaKicker', label: 'Frase pequena', kind: 'i' },
       { key: 'historiaTitle', label: 'Título', kind: 'i' },

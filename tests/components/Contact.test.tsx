@@ -9,7 +9,7 @@ import type { SiteContent } from '../../src/types/content';
 const insert = vi.fn();
 vi.mock('../../src/services/supabaseClient', () => ({ supabase: { from: () => ({ insert: (row: unknown) => insert(row) }) } }));
 
-const content: SiteContent = { texts: { contatoKicker: 'Contato', contatoTitle: 'Entre em cena', contatoText: 'Escreva', socInstagram: 'https://instagram.com/x', socYoutube: 'javascript:alert(1)' }, shows: [], posts: [], members: [], videos: [], podcasts: [], photos: [] };
+const content: SiteContent = { texts: { contatoKicker: 'Contato', contatoTitle: 'Entre em cena', contatoText: 'Escreva', socInstagram: 'https://instagram.com/x', socYoutube: 'javascript:alert(1)' }, shows: [], members: [], videos: [], podcasts: [], photos: [] };
 
 function setup() {
   return render(<MemoryRouter><ContentProvider initial={content}><Contact /></ContentProvider></MemoryRouter>);
