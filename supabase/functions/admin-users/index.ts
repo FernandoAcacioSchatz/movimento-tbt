@@ -9,8 +9,14 @@ const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 // Origens permitidas (CORS). Acrescente o domínio do site em produção via secret ALLOWED_ORIGINS.
 const ALLOWED_ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ??
-  "http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,https://movimentotbt.art,https://www.movimentotbt.art")
+  "https://movimentotbt.art,https://www.movimentotbt.art,https://movimento-tbt.vercel.app")
   .split(",").map((s) => s.trim()).filter(Boolean);
+// Desenvolvimento: qualquer porta local (o Vite troca de porta quando a 5173 está ocupada).
+const LOCAL_ORIGIN = /^http:\/\/(localhost|127\.0\.0\.1):\d{1,5}$/;
+
+function isAllowed(origin: string | null): origin is string {
+  return !!origin && (ALLOWED_ORIGINS.includes(origin) || LOCAL_ORIGIN.test(origin));
+}
 
 function corsHeaders(origin: string | null): Record<string, string> {
   const h: Record<string, string> = {
@@ -20,7 +26,7 @@ function corsHeaders(origin: string | null): Record<string, string> {
     "X-Content-Type-Options": "nosniff",
     "Cache-Control": "no-store",
   };
-  if (origin && ALLOWED_ORIGINS.includes(origin)) h["Access-Control-Allow-Origin"] = origin;
+  if (isAllowed(origin)) h["Access-Control-Allow-Origin"] = origin;
   return h;
 }
 
@@ -45,7 +51,7 @@ Deno.serve(async (req: Request) => {
   const origin = req.headers.get("origin");
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(origin) });
   if (req.method !== "POST") return json({ error: "Método não permitido." }, 405, origin);
-  if (origin && !ALLOWED_ORIGINS.includes(origin)) return json({ error: "Origem não permitida." }, 403, origin);
+  if (origin && !isAllowed(origin)) return json({ error: "Origem não permitida." }, 403, origin);
 
   const authHeader = req.headers.get("Authorization") ?? "";
   if (!authHeader.startsWith("Bearer ")) return json({ error: "Não autenticado." }, 401, origin);

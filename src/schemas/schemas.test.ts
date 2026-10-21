@@ -11,7 +11,7 @@ describe('contactSchema', () => {
   it('rejeita e-mail inválido', () => { expect(contactSchema.safeParse({ ...validContact, email: 'x' }).success).toBe(false); });
   it('rejeita mensagem curta e longa demais', () => {
     expect(contactSchema.safeParse({ ...validContact, message: 'oi' }).success).toBe(false);
-    expect(contactSchema.safeParse({ ...validContact, message: 'a'.repeat(3001) }).success).toBe(false);
+    expect(contactSchema.safeParse({ ...validContact, message: 'a'.repeat(2001) }).success).toBe(false);
   });
   it('rejeita assunto fora da lista', () => { expect(contactSchema.safeParse({ ...validContact, subject: 'Outro' }).success).toBe(false); });
   it('deixa a armadilha passar para o formulário fingir sucesso (robô)', () => {
