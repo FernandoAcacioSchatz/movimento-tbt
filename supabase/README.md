@@ -46,9 +46,9 @@ Ajustes no painel (uma vez só):
 
 1. **Endereços permitidos** — Authentication → URL Configuration
    - Site URL: `https://movimentotbt.art`
-   - Redirect URLs: `http://localhost:5173/redefinir-senha`, `https://movimentotbt.art/redefinir-senha`
-     (e o endereço provisório da Vercel, quando existir, ex.: `https://SEU-PROJETO.vercel.app/redefinir-senha`).
-   Sem isso o link do e-mail leva para o endereço errado.
+   - Redirect URLs: `http://localhost:*/redefinir-senha` (qualquer porta local: 5173 do `npm run dev`, 3000 do `vercel dev`),
+     `https://movimentotbt.art/redefinir-senha`, `https://www.movimentotbt.art/redefinir-senha` e `https://movimento-tbt.vercel.app/redefinir-senha`.
+   Sem isso o Supabase ignora o endereço pedido e manda o link para o Site URL (enquanto o domínio ainda estiver na Wix, dá 404).
 2. **Remetente próprio via Brevo** — na Brevo: *SMTP & API → SMTP → Gerar nova chave SMTP* (copie a chave; ela só aparece uma vez).
    No Supabase: Authentication → Emails → **SMTP Settings** → *Enable custom SMTP*:
    - Sender email: `fernandoacacioschatz@gmail.com` (remetente já verificado na Brevo; troque por `contato@movimentotbt.art` depois de autenticar o domínio na Brevo)
@@ -59,6 +59,6 @@ Ajustes no painel (uma vez só):
 3. **Modelo do e-mail** — Authentication → Emails → Templates → **Reset Password**:
    - Subject: `Redefinir sua senha — Movimento TBT`
    - Body: cole o conteúdo de [`templates/recuperar-senha.html`](templates/recuperar-senha.html).
-   O logo do e-mail vem de `https://movimentotbt.art/images/email/logo-tbt.png`, então só aparece depois do deploy e da troca do DNS.
+   O logo do e-mail vem de `https://movimento-tbt.vercel.app/images/email/logo-tbt.png` (troque para `movimentotbt.art` depois da troca do DNS).
 4. **Senhas** — Authentication → Providers → Email: *Minimum password length* = 12 e *Password requirements* = letras maiúsculas, minúsculas e números.
 5. Confirme também *Allow new users to sign up* **desligado** (só administradores criam contas, pelo site).

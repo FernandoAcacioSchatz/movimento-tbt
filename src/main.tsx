@@ -9,6 +9,12 @@ import './styles/site.css';
 import './styles/history.css';
 import './styles/admin.css';
 
+// Se o Supabase não aceitar o endereço de retorno, ele manda o link de recuperação para a página inicial (Site URL).
+// Nesse caso, leva os códigos do link para /redefinir-senha, onde eles são lidos.
+if (window.location.pathname !== '/redefinir-senha' && /(^|[#?&])type=recovery(&|$)/.test(window.location.hash + window.location.search)) {
+  window.history.replaceState(null, '', `/redefinir-senha${window.location.search}${window.location.hash}`);
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
