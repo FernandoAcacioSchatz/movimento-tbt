@@ -1,9 +1,14 @@
 import { useTexts } from '../hooks/useTexts';
 import { EditButton } from '../components/ui/EditButton';
 import { onSectionLinkClick } from '../utils/scroll';
+import { safeUrl } from '../utils/url';
+import { useContent } from '../hooks/useContent';
 
 export function Hero() {
   const t = useTexts();
+  const { content } = useContent();
+  // Logo trocada pelo admin (Editar → Início); sem ela, a original do site.
+  const customLogo = safeUrl(content?.texts.logoHero, { httpsOnly: true });
   return (
     <section id="inicio" className="hero" aria-labelledby="hero-title">
       <EditButton section="inicio" />
@@ -24,6 +29,9 @@ export function Hero() {
         <div className="hero__art">
           <div className="hero__card-wrap">
             <div className="hero__card">
+              {customLogo ? (
+                <img src={customLogo} alt="Logo da Temporada Blumenauense de Teatro" fetchPriority="high" />
+              ) : (
               <img
                 src="/images/logo-tbt-completo-960.webp"
                 srcSet="/images/logo-tbt-completo-480.webp 480w, /images/logo-tbt-completo-960.webp 960w"
@@ -33,11 +41,14 @@ export function Hero() {
                 height={386}
                 fetchPriority="high"
               />
+              )}
             </div>
-            <div className="hero__bubble">
-              <strong>{t('bubbleNum')}</strong>
-              <span>{t('bubbleLabel')}</span>
-            </div>
+            {(t('bubbleNum').trim() || t('bubbleLabel').trim()) && (
+              <div className="hero__bubble">
+                <strong>{t('bubbleNum')}</strong>
+                <span>{t('bubbleLabel')}</span>
+              </div>
+            )}
           </div>
         </div>
       </div>

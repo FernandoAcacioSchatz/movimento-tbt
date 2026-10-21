@@ -4,7 +4,8 @@ import type { ResourceTable } from '../types/content';
 import { showDateProblem } from '../utils/dates';
 import { memberSchema, photoSchema, podcastSchema, showSchema, videoSchema } from '../schemas/resourceSchemas';
 
-export interface TextField { key: string; label: string; kind: 'i' | 'a' | 'A' }
+/** i = linha · a = texto curto · A = texto longo · img = imagem (endereço; vazio = a imagem original do site) */
+export interface TextField { key: string; label: string; kind: 'i' | 'a' | 'A' | 'img' }
 
 export type FieldKind = 'text' | 'textarea' | 'date' | 'time' | 'url' | 'image' | 'select' | 'checkbox';
 export interface FieldDef {
@@ -118,6 +119,8 @@ export const SECTIONS: Record<SectionKey, SectionDef> = {
       { key: 'bubbleNum', label: 'Círculo — número', kind: 'i' },
       { key: 'bubbleLabel', label: 'Círculo — legenda', kind: 'i' },
       { key: 'ticker', label: 'Faixa amarela (frases separadas por ✦)', kind: 'a' },
+      { key: 'logoTopo', label: 'Logo do menu (topo de todas as páginas)', kind: 'img' },
+      { key: 'logoHero', label: 'Logo grande (ao lado do título)', kind: 'img' },
     ],
   },
   sobre: {
