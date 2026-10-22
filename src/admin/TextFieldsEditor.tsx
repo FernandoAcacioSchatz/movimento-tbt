@@ -1,10 +1,20 @@
 import { useState } from 'react';
 import { saveTexts } from '../services/contentService';
 import { useContent } from '../hooks/useContent';
-import { textValueSchema } from '../schemas/resourceSchemas';
+import { TEXT_MAX, textValueSchema } from '../schemas/resourceSchemas';
 import { safeUrl } from '../utils/url';
 import { uploadImage } from '../services/storageService';
 import { URL_TEXT_KEYS, type TextField } from './config';
+
+/** Contador de caracteres que acompanha a digitação; fica vermelho acima do limite. */
+function CharCount({ id, length }: { id: string; length: number }) {
+  const over = length > TEXT_MAX;
+  return (
+    <span id={id} className={over ? 'field__count field__count--over' : 'field__count'}>
+      {length.toLocaleString('pt-BR')} / {TEXT_MAX.toLocaleString('pt-BR')} caracteres{over && ` — ${(length - TEXT_MAX).toLocaleString('pt-BR')} acima do limite`}
+    </span>
+  );
+}
 
 /** Imagem guardada entre os textos (ex.: logos). Vazio = o site usa a imagem original. */
 function TextImageInput({ id, value, invalid, onChange }: { id: string; value: string; invalid: boolean; onChange: (v: string) => void }) {
@@ -85,7 +95,10 @@ export function TextFieldsEditor({ fields, onMessage }: { fields: TextField[]; o
           ) : f.kind === 'i' ? (
             <input id={`tx-${f.key}`} className="input" type="text" value={values[f.key] ?? ''} aria-invalid={!!errors[f.key]} onChange={(e) => setValues({ ...values, [f.key]: e.target.value })} />
           ) : (
-            <textarea id={`tx-${f.key}`} className="input" rows={f.kind === 'A' ? 7 : 3} value={values[f.key] ?? ''} aria-invalid={!!errors[f.key]} onChange={(e) => setValues({ ...values, [f.key]: e.target.value })} />
+            <>
+              <textarea id={`tx-${f.key}`} className="input" rows={f.kind === 'A' ? 7 : 3} value={values[f.key] ?? ''} aria-invalid={!!errors[f.key]} aria-describedby={`tx-${f.key}-count`} onChange={(e) => setValues({ ...values, [f.key]: e.target.value })} />
+              <CharCount id={`tx-${f.key}-count`} length={(values[f.key] ?? '').length} />
+            </>
           )}
           {errors[f.key] && <span className="field__error" role="alert">{errors[f.key]}</span>}
         </div>

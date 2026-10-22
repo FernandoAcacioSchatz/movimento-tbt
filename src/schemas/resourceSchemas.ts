@@ -48,4 +48,6 @@ export const photoSchema = z.object({
   src: requiredImage,
 });
 
-export const textValueSchema = z.string().max(5000, 'Máximo de 5000 caracteres.');
+/** Limite de cada texto do site (o banco aplica o mesmo limite). */
+export const TEXT_MAX = 5000;
+export const textValueSchema = z.string().max(TEXT_MAX, `Máximo de ${TEXT_MAX} caracteres.`);
