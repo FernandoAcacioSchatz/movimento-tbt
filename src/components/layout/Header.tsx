@@ -6,7 +6,7 @@ import { safeUrl } from '../../utils/url';
 import { useContent } from '../../hooks/useContent';
 
 const MENU = [
-  ['Início', 'inicio'], ['Sobre', 'sobre'], ['Agenda', 'agenda'], ['História', 'historia'],
+  ['Início', 'inicio'], ['Agenda', 'agenda'], ['Sobre', 'sobre'], ['História', 'historia'],
   ['Mídias', 'midias'], ['Integrantes', 'integrantes'], ['Contato', 'contato'],
 ] as const;
 

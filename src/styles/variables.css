@@ -29,7 +29,7 @@
   --text-lg: 1.1875rem;
   --text-xl: 1.5rem;
   --text-2xl: clamp(2rem, 5vw, 3.375rem);
-  --text-hero: clamp(1.8rem, 5vw + 0.2rem, 4.25rem); /* "BLUMENAU" cabe inteiro em todas as larguras */
+  --text-hero: clamp(3rem, 10.5vw, 9.5rem); /* palavras longas são encolhidas por useFitText */
 
   /* Espaçamento (escala de 4px) */
   --space-1: 0.25rem;

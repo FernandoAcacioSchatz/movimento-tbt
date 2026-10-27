@@ -17,7 +17,7 @@ export function Agenda() {
   const today = todayISO();
 
   return (
-    <section id="agenda" className="section section--white" aria-labelledby="agenda-title">
+    <section id="agenda" className="section" aria-labelledby="agenda-title">
       <EditButton section="agenda" />
       <div className="container">
         <div className="kicker kicker--magenta">{t('agendaKicker')}</div>

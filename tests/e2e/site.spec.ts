@@ -9,7 +9,7 @@ test.describe('site público', () => {
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Teatro');
     const ids = await page.locator('main section[id]').evaluateAll((els) => els.map((e) => e.id));
-    expect(ids).toEqual(['inicio', 'sobre', 'agenda', 'historia', 'midias', 'integrantes', 'contato']);
+    expect(ids).toEqual(['inicio', 'agenda', 'sobre', 'historia', 'midias', 'integrantes', 'contato']);
     await expect(page.getByText(/sala de imprensa/i)).toHaveCount(0);
     expect(violations).toEqual([]);
   });

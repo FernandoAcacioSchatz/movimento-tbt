@@ -51,10 +51,10 @@ export function HomePage({ admin = false }: { admin?: boolean }) {
             <SectionEditor section="inicio" admin={admin} />
             <Hero />
             <TickerBand />
-            <SectionEditor section="sobre" admin={admin} />
-            <About />
             <SectionEditor section="agenda" admin={admin} />
             <Agenda />
+            <SectionEditor section="sobre" admin={admin} />
+            <About />
             <SectionEditor section="historia" admin={admin} />
             <Stories />
             <SectionEditor section="midias" admin={admin} />

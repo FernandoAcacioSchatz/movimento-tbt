@@ -16,7 +16,7 @@ describe('Header', () => {
   it('lista as seções na ordem combinada', () => {
     setup();
     const names = screen.getAllByRole('link').map((l) => l.textContent).filter((t) => t && !t.includes('agenda'));
-    expect(names).toEqual(['Início', 'Sobre', 'Agenda', 'História', 'Mídias', 'Integrantes', 'Contato']);
+    expect(names).toEqual(['Início', 'Agenda', 'Sobre', 'História', 'Mídias', 'Integrantes', 'Contato']);
   });
   it('abre e fecha o menu no celular', async () => {
     const user = userEvent.setup();

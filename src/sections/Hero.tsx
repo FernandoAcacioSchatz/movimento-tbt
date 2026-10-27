@@ -3,54 +3,50 @@ import { EditButton } from '../components/ui/EditButton';
 import { onSectionLinkClick } from '../utils/scroll';
 import { safeUrl } from '../utils/url';
 import { useContent } from '../hooks/useContent';
+import { useFitText } from '../hooks/useFitText';
+
+// Fotos padrão da faixa; cada uma pode ser trocada pelo admin (Editar → Início).
+const PHOTOS = [
+  { key: 'heroFoto1', src: '/images/historia/2014/postagens/foto-6316.webp' },
+  { key: 'heroFoto2', src: '/images/historia/2013/postagens/os-bestas-do-apocalipse-9.webp' },
+  { key: 'heroFoto3', src: '/images/acervo/isso-nao-e-brincadeira-detalhe.webp' },
+  { key: 'heroFoto4', src: '/images/historia/2014/postagens/o-traje-da-rainha-6536.webp' },
+  { key: 'heroFoto5', src: '/images/historia/2013/postagens/mg-6658-2.webp' },
+];
 
 export function Hero() {
   const t = useTexts();
   const { content } = useContent();
-  // Logo trocada pelo admin (Editar → Início); sem ela, a original do site.
-  const customLogo = safeUrl(content?.texts.logoHero, { httpsOnly: true });
+  const line1 = t('heroLine1');
+  const line2 = t('heroLine2');
+  // palavra grande encolhe a fonte em vez de quebrar no meio
+  const titleRef = useFitText([line1, line2]);
   return (
     <section id="inicio" className="hero" aria-labelledby="hero-title">
       <EditButton section="inicio" />
-      <div className="hero__circle hero__circle--yellow" aria-hidden="true" />
-      <div className="hero__circle hero__circle--teal" aria-hidden="true" />
       <div className="container hero__inner">
-        <div className="hero__text">
-          <div className="kicker kicker--yellow">{t('heroKicker')}</div>
-          <h1 id="hero-title" className="hero__title">
-            {t('heroLine1')}<br /><span>{t('heroLine2')}</span>
+        <div className="kicker kicker--yellow">{t('heroKicker')}</div>
+        <div className="hero__heading">
+          {/* desenho das máscaras da logo, atrás do título */}
+          <img className="hero__masks" src="/images/mascaras.webp" alt="" width={640} height={605} aria-hidden="true" />
+          <h1 id="hero-title" className="hero__title" ref={titleRef}>
+            <span className="hero__line">{line1}</span>{' '}
+            <span className="hero__line hero__line--outline">{line2}</span>
           </h1>
-          <p className="hero__lead">{t('heroText')}</p>
-          <div className="hero__actions">
-            <a className="btn btn--lg btn--yellow" href="#agenda" onClick={(e) => onSectionLinkClick(e, 'agenda')}>{t('heroBtn1')}</a>
-            <a className="btn btn--lg btn--outline" href="#historia" onClick={(e) => onSectionLinkClick(e, 'historia')}>{t('heroBtn2')}</a>
-          </div>
         </div>
-        <div className="hero__art">
-          <div className="hero__card-wrap">
-            <div className="hero__card">
-              {customLogo ? (
-                <img src={customLogo} alt="Logo da Temporada Blumenauense de Teatro" fetchPriority="high" />
-              ) : (
-              <img
-                src="/images/logo-tbt-completo-960.webp"
-                srcSet="/images/logo-tbt-completo-480.webp 480w, /images/logo-tbt-completo-960.webp 960w"
-                sizes="(max-width: 640px) 80vw, 420px"
-                alt="Logo da Temporada Blumenauense de Teatro"
-                width={960}
-                height={386}
-                fetchPriority="high"
-              />
-              )}
-            </div>
-            {(t('bubbleNum').trim() || t('bubbleLabel').trim()) && (
-              <div className="hero__bubble">
-                <strong>{t('bubbleNum')}</strong>
-                <span>{t('bubbleLabel')}</span>
-              </div>
-            )}
-          </div>
+        <p className="hero__lead">{t('heroText')}</p>
+        <div className="hero__actions">
+          <a className="btn btn--lg btn--yellow" href="#agenda" onClick={(e) => onSectionLinkClick(e, 'agenda')}>{t('heroBtn1')}</a>
+          <a className="btn btn--lg btn--outline" href="#historia" onClick={(e) => onSectionLinkClick(e, 'historia')}>{t('heroBtn2')}</a>
         </div>
+      </div>
+      {/* fotos decorativas espalhadas, como polaroides */}
+      <div className="hero__photos" aria-hidden="true">
+        {PHOTOS.map((p) => (
+          <div key={p.key} className="hero__photo">
+            <img src={safeUrl(content?.texts[p.key], { httpsOnly: true }) || p.src} alt="" width={400} height={400} />
+          </div>
+        ))}
       </div>
     </section>
   );

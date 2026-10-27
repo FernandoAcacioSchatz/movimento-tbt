@@ -9,7 +9,7 @@ export function About() {
     .map((n) => ({ n, value: t(`stat${n}v`).trim(), label: t(`stat${n}l`).trim() }))
     .filter((s) => s.value || s.label);
   return (
-    <section id="sobre" className="section" aria-labelledby="sobre-title">
+    <section id="sobre" className="section section--white" aria-labelledby="sobre-title">
       <EditButton section="sobre" />
       <div className="container about">
         <div className="about__left">
