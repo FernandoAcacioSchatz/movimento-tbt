@@ -24,9 +24,14 @@ export function Cast() {
   const current = open === null ? null : members[open];
   const currentColor = open === null ? undefined : accentColor(open);
   const currentPhoto = current ? safeUrl(current.photo_url) : null;
-  // fotos bem mais altas que largas (selfies 9:16) não são cortadas no painel: ver .member__photo--fit
-  const [tallPhoto, setTallPhoto] = useState<string | null>(null);
-  const fit = currentPhoto !== null && tallPhoto === currentPhoto;
+  // proporção (largura/altura) de cada foto já carregada: a coluna da foto do painel assume essa
+  // proporção, então qualquer foto (deitada, quadrada, selfie 9:16) aparece inteira, sem corte
+  const [ratios, setRatios] = useState<Record<string, number>>({});
+  const natural = (currentPhoto && ratios[currentPhoto]) || 3 / 4;
+  // o painel é sempre em pé (foto à esquerda, texto ao lado): foto deitada ou quadrada vai numa
+  // moldura 3:4 enquadrada no rosto, igual ao cartão da grade (ver .member__photo--crop)
+  const crop = natural >= 1;
+  const ratio = crop ? 3 / 4 : natural;
 
   return (
     <section id="integrantes" className="section" aria-labelledby="elenco-title">
@@ -71,7 +76,8 @@ export function Cast() {
 
       <dialog
         ref={dialog}
-        className="member"
+        className={currentPhoto ? 'member member--side' : 'member'}
+        style={{ '--photo-ratio': ratio } as React.CSSProperties}
         aria-labelledby="member-name"
         onClose={() => { setOpen(null); opener.current?.focus(); }}
         onClick={(e) => { if (e.target === e.currentTarget) dialog.current?.close(); }}
@@ -80,10 +86,13 @@ export function Cast() {
           <div className="member__inner" style={{ borderColor: currentColor }}>
             <button type="button" className="arrow arrow--pause member__close" onClick={() => dialog.current?.close()} aria-label="Fechar">✕</button>
             {currentPhoto && (
-              <div className={fit ? 'member__photo member__photo--fit' : 'member__photo'} style={{ background: currentColor }}>
-                {fit && <img className="member__photo-bg" src={currentPhoto} alt="" aria-hidden="true" />}
-                <img key={currentPhoto} src={currentPhoto} alt={`Foto de ${current.name}`}
-                  onLoad={(e) => { const i = e.currentTarget; if (i.naturalHeight > i.naturalWidth * 1.5) setTallPhoto(currentPhoto); }} />
+              <div className={crop ? 'member__photo member__photo--crop' : 'member__photo'}>
+                <img className="member__photo-bg" src={currentPhoto} alt="" aria-hidden="true" />
+                <img key={currentPhoto} className="member__photo-img" src={currentPhoto} alt={`Foto de ${current.name}`}
+                  onLoad={(e) => {
+                    const i = e.currentTarget;
+                    if (i.naturalWidth && i.naturalHeight) setRatios((r) => ({ ...r, [currentPhoto]: i.naturalWidth / i.naturalHeight }));
+                  }} />
               </div>
             )}
             <div className="member__body">
