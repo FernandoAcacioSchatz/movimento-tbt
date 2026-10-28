@@ -13,10 +13,9 @@ export function Media() {
   const photos = content?.photos ?? [];
 
   return (
-    <section id="midias" className="section section--cream2" aria-labelledby="midias-title">
+    <section id="midias" className="section" aria-labelledby="midias-title">
       <EditButton section="midias" />
       <div className="container">
-        <div className="kicker kicker--teal">{t('midiasKicker')}</div>
         <h2 id="midias-title" className="h2">{t('midiasTitle')}</h2>
 
         {videos.length > 0 && (

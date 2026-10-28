@@ -5,7 +5,7 @@ const json = (body: unknown) => ({ status: 200, contentType: 'application/json',
 
 const texts = Object.entries({
   heroKicker: 'Cortina aberta desde 2005', heroLine1: 'Teatro', heroLine2: 'de Blumenau', heroText: 'O movimento de grupos.', heroBtn1: 'Ver a programação', heroBtn2: 'Ler nossa história',
-  bubbleNum: '20', bubbleLabel: 'anos', ticker: 'Teatro ✦ Blumenau', sobreKicker: 'Sobre', sobreTitle: 'Um palco coletivo.', sobreP1: 'Texto 1', sobreP2: 'Texto 2',
+  bubbleNum: '20', bubbleLabel: 'anos', sobreKicker: 'Sobre', sobreTitle: 'Um palco coletivo.', sobreP1: 'Texto 1', sobreP2: 'Texto 2',
   agendaKicker: 'Agenda', agendaTitle: 'Em cartaz', agendaText: 'Entrada em chapéu consciente.', historiaKicker: 'História & notícias', historiaTitle: 'Vinte anos em cena',
   midiasKicker: 'Mídias', midiasTitle: 'Assista & ouça', videosTitle: 'Leituras', podcastsTitle: 'Podcasts', fotosTitle: 'Fotos', elencoKicker: 'Integrantes', elencoTitle: 'O elenco do movimento',
   contatoKicker: 'Contato', contatoTitle: 'Entre em cena', contatoText: 'Escreva para a gente.', footer: '© 2025 Movimento TBT',

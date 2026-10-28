@@ -1,6 +1,5 @@
 import { useTexts } from '../hooks/useTexts';
 import { EditButton } from '../components/ui/EditButton';
-import { onSectionLinkClick } from '../utils/scroll';
 import { safeUrl } from '../utils/url';
 import { useContent } from '../hooks/useContent';
 import { useFitText } from '../hooks/useFitText';
@@ -33,11 +32,6 @@ export function Hero() {
             <span className="hero__line">{line1}</span>{' '}
             <span className="hero__line hero__line--outline">{line2}</span>
           </h1>
-        </div>
-        <p className="hero__lead">{t('heroText')}</p>
-        <div className="hero__actions">
-          <a className="btn btn--lg btn--yellow" href="#agenda" onClick={(e) => onSectionLinkClick(e, 'agenda')}>{t('heroBtn1')}</a>
-          <a className="btn btn--lg btn--outline" href="#historia" onClick={(e) => onSectionLinkClick(e, 'historia')}>{t('heroBtn2')}</a>
         </div>
       </div>
       {/* fotos decorativas espalhadas, como polaroides */}

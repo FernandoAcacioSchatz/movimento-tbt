@@ -20,7 +20,6 @@ export function Agenda() {
     <section id="agenda" className="section" aria-labelledby="agenda-title">
       <EditButton section="agenda" />
       <div className="container">
-        <div className="kicker kicker--magenta">{t('agendaKicker')}</div>
         <div className="section__head">
           <h2 id="agenda-title" className="h2" style={{ marginBottom: 'var(--space-3)' }}>{t('agendaTitle')}</h2>
           {shows.length > 1 && <CarouselControls onPrev={prev} onNext={next} paused={paused} onTogglePause={togglePause} label="agenda" />}

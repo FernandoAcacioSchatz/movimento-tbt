@@ -21,8 +21,8 @@
   --accent-cycle-4: var(--color-orange);
 
   /* Tipografia */
-  --font-display: 'Syne', system-ui, sans-serif;
-  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-display: 'Dosis', system-ui, sans-serif;
+  --font-body: 'Dosis', system-ui, sans-serif;
   --text-xs: 0.8125rem;
   --text-sm: 0.9375rem;
   --text-md: 1.0625rem;
@@ -41,7 +41,7 @@
   --space-7: 3rem;
   --space-8: 4rem;
   --space-9: 6.5rem;
-  --section-y: clamp(4rem, 9vw, 6.875rem);
+  --section-y: clamp(2rem, 4vw, 3.5rem);
 
   /* Layout */
   --container: 77.5rem; /* 1240px */

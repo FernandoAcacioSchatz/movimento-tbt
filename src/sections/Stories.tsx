@@ -16,7 +16,6 @@ export function Stories() {
     <section id="historia" className="section" aria-labelledby="historia-title">
       <EditButton section="historia" />
       <div className="container">
-        <div className="kicker kicker--magenta">{t('historiaKicker')}</div>
         <h2 id="historia-title" className="h2">{t('historiaTitle')}</h2>
 
         {years.data && years.data.length > 0 && (

@@ -4,17 +4,21 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'react-router-dom';
 import { useTexts } from '../hooks/useTexts';
 import { EditButton } from '../components/ui/EditButton';
-import { SafeLink } from '../components/ui/SafeLink';
 import { contactSchema, type ContactFormValues } from '../schemas/contactSchema';
 import { sendContactMessage } from '../services/contactService';
 import { CONTACT_SUBJECTS } from '../types/content';
+import { WHATSAPP_PATH } from '../assets/socials';
 
-const SOCIALS = [
-  ['Instagram', 'socInstagram', 'var(--color-pink)'],
-  ['YouTube', 'socYoutube', 'var(--color-yellow)'],
-  ['Spotify', 'socSpotify', 'var(--color-teal)'],
-  ['SoundCloud', 'socSoundcloud', 'var(--color-orange)'],
-] as const;
+/** Ícones de traço simples (viewBox 0 0 24 24) para os contatos diretos. */
+const ICON_MAIL = <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>;
+const ICON_PIN = <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z" /><circle cx="12" cy="9.5" r="2.5" /></svg>;
+const ICON_WHATSAPP = <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d={WHATSAPP_PATH} fill="currentColor" /></svg>;
+
+/** Número do WhatsApp só com dígitos, com o 55 do Brasil quando vier sem código do país. */
+function whatsappDigits(raw: string): string {
+  const d = raw.replace(/\D/g, '');
+  return d.length === 10 || d.length === 11 ? `55${d}` : d;
+}
 
 export function Contact() {
   const t = useTexts();
@@ -37,6 +41,13 @@ export function Contact() {
     }
   };
 
+  // Contatos diretos (Editar → Contato); cada um só aparece se estiver preenchido.
+  const email = t('contatoEmail').trim();
+  const whats = t('contatoWhatsapp').trim();
+  const local = t('contatoLocal').trim();
+  const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const whatsNum = whatsappDigits(whats);
+
   const err = (key: keyof ContactFormValues) => errors[key]?.message as string | undefined;
 
   return (
@@ -44,14 +55,21 @@ export function Contact() {
       <EditButton section="contato" />
       <div className="container contact">
         <div className="contact__info">
-          <div className="kicker kicker--teal">{t('contatoKicker')}</div>
           <h2 id="contato-title" className="h2">{t('contatoTitle')}</h2>
           <p className="lead">{t('contatoText')}</p>
-          <div className="socials">
-            {SOCIALS.map(([label, key, color]) => (
-              <SafeLink key={key} href={t(key)} className="social" style={{ background: color }}>{label} ↗</SafeLink>
-            ))}
-          </div>
+          {(validEmail || whatsNum.length >= 12 || local) && (
+            <ul className="contact__direct">
+              {validEmail && (
+                <li><a className="contact__item" href={`mailto:${email}`}><span className="contact__icon" style={{ background: 'var(--color-yellow)' }}>{ICON_MAIL}</span><span><small>E-mail</small>{email}</span></a></li>
+              )}
+              {whatsNum.length >= 12 && (
+                <li><a className="contact__item" href={`https://wa.me/${whatsNum}`} target="_blank" rel="noopener noreferrer"><span className="contact__icon" style={{ background: 'var(--color-teal)' }}>{ICON_WHATSAPP}</span><span><small>WhatsApp</small>{whats}</span></a></li>
+              )}
+              {local && (
+                <li><div className="contact__item"><span className="contact__icon" style={{ background: 'var(--color-pink)' }}>{ICON_PIN}</span><span><small>Onde estamos</small>{local}</span></div></li>
+              )}
+            </ul>
+          )}
         </div>
 
         <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate aria-label="Formulário de contato">

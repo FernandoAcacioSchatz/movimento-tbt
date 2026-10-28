@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AdminBar } from '../admin/AdminBar';
 import { HistoryItemForm, NEW_LABEL, type HistoryRow } from '../admin/HistoryItemForm';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
@@ -25,6 +26,8 @@ export function AdminHistoryPage() {
   const [confirm, setConfirm] = useState<string | null>(null);
   const [toast, setToast] = useState<{ text: string; ok: boolean } | null>(null);
   const [introDrafts, setIntroDrafts] = useState<Record<string, string>>({});
+  const [askLeave, setAskLeave] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let active = true;
@@ -65,7 +68,19 @@ export function AdminHistoryPage() {
     <>
       <AdminBar />
       <main id="conteudo" className="container page admin-history">
-        <h1 className="h2" style={{ marginBottom: 'var(--space-3)' }}>História</h1>
+        <div className="admin-history__head">
+          <h1 className="h2">História</h1>
+          {/* volta para o painel da História no site, sem salvar o que estiver aberto */}
+          {askLeave ? (
+            <div className="ed-row__actions">
+              <span className="ed-row__ask">Tem certeza que quer cancelar a edição? O que não foi salvo será perdido.</span>
+              <button type="button" className="btn btn--magenta" onClick={() => navigate('/admin#historia')}>Sim, cancelar</button>
+              <button type="button" className="btn btn--outline" onClick={() => setAskLeave(false)}>Continuar editando</button>
+            </div>
+          ) : (
+            <button type="button" className="btn btn--outline" onClick={() => setAskLeave(true)}>Cancelar edição</button>
+          )}
+        </div>
         <p className="ed-hint" style={{ marginBottom: 'var(--space-5)' }}>
           Escolha o ano e o tipo. Tudo aparece no site em ordem cronológica, pela data do acontecimento — não é preciso ordenar nada.
           Datas aceitas: de 2004 até hoje.

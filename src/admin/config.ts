@@ -116,7 +116,6 @@ export const SECTIONS: Record<SectionKey, SectionDef> = {
       { key: 'heroText', label: 'Texto de apresentação', kind: 'A' },
       { key: 'heroBtn1', label: 'Botão 1', kind: 'i' },
       { key: 'heroBtn2', label: 'Botão 2', kind: 'i' },
-      { key: 'ticker', label: 'Faixa amarela (frases separadas por ✦)', kind: 'a' },
       { key: 'logoTopo', label: 'Logo do menu (topo de todas as páginas)', kind: 'img' },
       { key: 'heroFoto1', label: 'Foto 1 da faixa de fotos', kind: 'img' },
       { key: 'heroFoto2', label: 'Foto 2 da faixa de fotos', kind: 'img' },
@@ -129,7 +128,6 @@ export const SECTIONS: Record<SectionKey, SectionDef> = {
     title: 'Sobre',
     resources: [],
     texts: [
-      { key: 'sobreKicker', label: 'Frase pequena', kind: 'i' },
       { key: 'sobreTitle', label: 'Título', kind: 'i' },
       { key: 'sobreP1', label: 'Parágrafo 1', kind: 'A' },
       { key: 'sobreP2', label: 'Parágrafo 2', kind: 'A' },
@@ -143,7 +141,6 @@ export const SECTIONS: Record<SectionKey, SectionDef> = {
     title: 'Agenda',
     resources: ['shows'],
     texts: [
-      { key: 'agendaKicker', label: 'Frase pequena', kind: 'i' },
       { key: 'agendaTitle', label: 'Título', kind: 'i' },
       { key: 'agendaText', label: 'Texto de apoio', kind: 'a' },
       { key: 'agendaVazioTitulo', label: 'Sem espetáculos em cartaz — título', kind: 'i' },
@@ -154,7 +151,6 @@ export const SECTIONS: Record<SectionKey, SectionDef> = {
     title: 'História',
     resources: [],
     texts: [
-      { key: 'historiaKicker', label: 'Frase pequena', kind: 'i' },
       { key: 'historiaTitle', label: 'Título', kind: 'i' },
     ],
   },
@@ -162,7 +158,6 @@ export const SECTIONS: Record<SectionKey, SectionDef> = {
     title: 'Assista & ouça',
     resources: ['videos', 'podcasts', 'photos'],
     texts: [
-      { key: 'midiasKicker', label: 'Frase pequena', kind: 'i' },
       { key: 'midiasTitle', label: 'Título', kind: 'i' },
       { key: 'videosTitle', label: 'Título dos vídeos', kind: 'i' },
       { key: 'podcastsTitle', label: 'Título dos podcasts', kind: 'i' },
@@ -173,7 +168,6 @@ export const SECTIONS: Record<SectionKey, SectionDef> = {
     title: 'Integrantes',
     resources: ['members'],
     texts: [
-      { key: 'elencoKicker', label: 'Frase pequena', kind: 'i' },
       { key: 'elencoTitle', label: 'Título', kind: 'i' },
     ],
   },
@@ -181,9 +175,11 @@ export const SECTIONS: Record<SectionKey, SectionDef> = {
     title: 'Contato',
     resources: [],
     texts: [
-      { key: 'contatoKicker', label: 'Frase pequena', kind: 'i' },
       { key: 'contatoTitle', label: 'Título', kind: 'i' },
       { key: 'contatoText', label: 'Texto', kind: 'a' },
+      { key: 'contatoEmail', label: 'E-mail de contato (deixe vazio para não mostrar)', kind: 'i' },
+      { key: 'contatoWhatsapp', label: 'WhatsApp, com DDD, ex.: (47) 99999-9999 (deixe vazio para não mostrar)', kind: 'i' },
+      { key: 'contatoLocal', label: 'Cidade / endereço, ex.: Blumenau, SC (deixe vazio para não mostrar)', kind: 'i' },
       { key: 'socInstagram', label: 'Link do Instagram', kind: 'i' },
       { key: 'socYoutube', label: 'Link do YouTube', kind: 'i' },
       { key: 'socSpotify', label: 'Link do Spotify', kind: 'i' },

@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import { Header } from '../components/layout/Header';
 import { Footer } from '../components/layout/Footer';
 import { Hero } from '../sections/Hero';
-import { TickerBand } from '../sections/TickerBand';
 import { About } from '../sections/About';
 import { Agenda } from '../sections/Agenda';
 import { Stories } from '../sections/Stories';
@@ -50,7 +49,6 @@ export function HomePage({ admin = false }: { admin?: boolean }) {
           <>
             <SectionEditor section="inicio" admin={admin} />
             <Hero />
-            <TickerBand />
             <SectionEditor section="agenda" admin={admin} />
             <Agenda />
             <SectionEditor section="sobre" admin={admin} />

@@ -16,7 +16,7 @@ describe('Header', () => {
   it('lista as seções na ordem combinada', () => {
     setup();
     const names = screen.getAllByRole('link').map((l) => l.textContent).filter((t) => t && !t.includes('agenda'));
-    expect(names).toEqual(['Início', 'Agenda', 'Sobre', 'História', 'Mídias', 'Integrantes', 'Contato']);
+    expect(names).toEqual(['Agenda', 'Sobre', 'História', 'Mídias', 'Integrantes', 'Contato']);
   });
   it('abre e fecha o menu no celular', async () => {
     const user = userEvent.setup();
@@ -31,6 +31,6 @@ describe('Header', () => {
     expect(screen.getByAltText(/Logo Movimento/)).toHaveAttribute('src', 'https://exemplo.supabase.co/logo.png');
     unmount();
     setup({ logoTopo: 'javascript:alert(1)' });
-    expect(screen.getByAltText(/Logo Movimento/)).toHaveAttribute('src', '/images/logo-tbt-84.webp');
+    expect(screen.getByAltText(/Logo Movimento/)).toHaveAttribute('src', '/images/mascaras-84.webp');
   });
 });
