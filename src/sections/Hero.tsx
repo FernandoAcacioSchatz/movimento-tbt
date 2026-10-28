@@ -9,6 +9,11 @@ export function Hero() {
   const { content } = useContent();
   // Logo trocada pelo admin (Editar → Início); sem ela, a original do site.
   const customLogo = safeUrl(content?.texts.logoHero, { httpsOnly: true });
+  // A palavra mais longa do título define o tamanho da fonte (ver .hero__title no CSS),
+  // assim um título editado no admin nunca fica cortado.
+  const longestWord = `${t('heroLine1')} ${t('heroLine2')}`
+    .split(/\s+/)
+    .reduce((max, word) => Math.max(max, [...word].length), 1);
   return (
     <section id="inicio" className="hero" aria-labelledby="hero-title">
       <EditButton section="inicio" />
@@ -17,7 +22,7 @@ export function Hero() {
       <div className="container hero__inner">
         <div className="hero__text">
           <div className="kicker kicker--yellow">{t('heroKicker')}</div>
-          <h1 id="hero-title" className="hero__title">
+          <h1 id="hero-title" className="hero__title" style={{ '--hero-word': longestWord } as React.CSSProperties}>
             {t('heroLine1')}<br /><span>{t('heroLine2')}</span>
           </h1>
           <p className="hero__lead">{t('heroText')}</p>
