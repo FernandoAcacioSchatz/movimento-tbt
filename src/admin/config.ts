@@ -156,6 +156,15 @@ export const SECTIONS: Record<SectionKey, SectionDef> = {
       { key: 'historiaTitle', label: 'Título', kind: 'i' },
     ],
   },
+  namidia: {
+    title: 'Mídias',
+    resources: [],
+    texts: [
+      { key: 'namidiaKicker', label: 'Frase pequena', kind: 'i' },
+      { key: 'namidiaTitle', label: 'Título', kind: 'i' },
+      { key: 'namidiaText', label: 'Texto de apoio', kind: 'a' },
+    ],
+  },
   midias: {
     title: 'Assista & ouça',
     resources: ['videos', 'podcasts', 'photos'],

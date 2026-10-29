@@ -7,7 +7,7 @@ import { useContent } from '../../hooks/useContent';
 
 const MENU = [
   ['Início', 'inicio'], ['Sobre', 'sobre'], ['Agenda', 'agenda'], ['História', 'historia'],
-  ['Mídias', 'midias'], ['Integrantes', 'integrantes'], ['Contato', 'contato'],
+  ['Mídias', 'na-midia'], ['Assista & ouça', 'midias'], ['Integrantes', 'integrantes'], ['Contato', 'contato'],
 ] as const;
 
 export function Header({ base = '' }: { base?: string }) {
